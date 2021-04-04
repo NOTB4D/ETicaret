@@ -1,4 +1,5 @@
 ﻿using BL.Abstract;
+using Core.Utilities.Results;
 using DAL.Abstract;
 using EL.Concrete;
 using EL.DTOs;
@@ -17,6 +18,18 @@ namespace BL.Concrete
         {
             _productDal = productDal;
         }
+
+        public IResult Add(Product product)
+        {
+            // Business codes
+            if (product.Uadi.Length<2)
+            {
+                return new ErrorResult("Ürün İsmi minumum 2 karakter olmalıdır");
+            }
+            _productDal.Add(product);
+            return new SuccsessResult();
+        }
+
         public List<Product> GetAll()
         {
             // iş kodları varsa yaz
@@ -26,6 +39,12 @@ namespace BL.Concrete
         public List<Product> GetAllByCategoryId(int Id)
         {
             return _productDal.GetAll(p => p.Id == Id);
+        }
+
+        public Product GetById(int productId)
+        {
+            return _productDal.Get(p => p.Id == productId);
+           
         }
 
         public List<ProductDetailDto> GetProductDetails()
