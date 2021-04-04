@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\EL\EL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Concrate\InMemory\" />
   </ItemGroup>
 
   <ItemGroup>

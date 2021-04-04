@@ -1,6 +1,7 @@
 ﻿using BL.Abstract;
 using DAL.Abstract;
 using EL.Concrete;
+using EL.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,11 @@ namespace BL.Concrete
         public List<Product> GetAllByCategoryId(int Id)
         {
             return _productDal.GetAll(p => p.Id == Id);
+        }
+
+        public List<ProductDetailDto> GetProductDetails()
+        {
+            return _productDal.GetProductDetails();
         }
     }
 }
