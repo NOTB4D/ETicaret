@@ -1,4 +1,5 @@
 ﻿using BL.Abstract;
+using BL.Constants;
 using Core.Utilities.Results;
 using DAL.Abstract;
 using EL.Concrete;
@@ -22,34 +23,46 @@ namespace BL.Concrete
         public IResult Add(Product product)
         {
             // Business codes
-            if (product.Uadi.Length<2)
+            if (product.ProductName.Length<2)
             {
-                return new ErrorResult("Ürün İsmi minumum 2 karakter olmalıdır");
+                return new ErrorResult(Messages.ProductNameInvalid);
             }
             _productDal.Add(product);
-            return new SuccsessResult();
+            return new SuccessResult(Messages.ProductAdded);
         }
-
-        public List<Product> GetAll()
+        public IDataResult<List<Product>> GetAll()
         {
             // iş kodları varsa yaz
-            return _productDal.GetAll();
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductListed);
         }
 
-        public List<Product> GetAllByCategoryId(int Id)
+        public IDataResult<List<Product>> GetAllByCategoryId(int Id)
         {
-            return _productDal.GetAll(p => p.Id == Id);
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.ProductID == Id));
         }
 
-        public Product GetById(int productId)
+        public IDataResult<Product> GetById(int productId)
         {
-            return _productDal.Get(p => p.Id == productId);
+            return new SuccessDataResult<Product> (_productDal.Get(p => p.ProductID == productId));
            
         }
-
-        public List<ProductDetailDto> GetProductDetails()
+        public IDataResult<List<Product>> GetByUnitPrice(decimal min, decimal max)
         {
-            return _productDal.GetProductDetails();
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max));
+        }
+
+        public IDataResult<List<ProductDetailDto>> GetProductDetails()
+        {
+            return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
+        }
+        public IResult Update(Product product)
+        {
+            var result = _productDal.GetAll(p => p.CategoryID == product.CategoryID).Count;
+            if (result >= 10)
+            {
+                return new ErrorResult(Messages.ProductAdded);
+            }
+            throw new NotImplementedException();
         }
     }
 }

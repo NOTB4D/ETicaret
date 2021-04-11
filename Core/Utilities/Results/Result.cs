@@ -8,15 +8,13 @@ namespace Core.Utilities.Results
 {
     public class Result : IResult
     {
-      
-        // :this() yaparsan iki parametre yollarsan bu calışır
-        public Result(bool succsess, string mesage):this(succsess)
+
+        public Result(bool success, string message) : this(success)
         {
-            Message = mesage;
-           
+            Message = message;
         }
-        // Tek parametre yollarsan bu calışır 
-        public Result (bool success)
+
+        public Result(bool success)
         {
             Success = success;
         }

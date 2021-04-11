@@ -9,12 +9,12 @@ namespace EL.Concrete
 {
    public class Product: IEntity
     {
-        public int Id { get; set; }
-        public string Uadi { get; set; }
-        public double Ufiyat { get; set; }
-        public string Uresim { get; set; }
-        public string Uaciklama { get; set; }
-        public int UMarkaId { get; set; }
+        public int ProductID { get; set; }
+        public int CategoryID { get; set; }
+        public string ProductName { get; set; }
+        public short UnitsInStock { get; set; }
+        public decimal UnitPrice { get; set; }
+        
 
     }
 }

@@ -17,15 +17,16 @@ namespace DAL.Concrate.EntityFrameWork
     {
         public List<ProductDetailDto> GetProductDetails()
         {
-            using (NorthWindContext context = new NorthWindContext())
-
-            {
-                var result = from p in context.Products
-                             join c in context.Categories
-                             on p.Id equals c.CategoryId
-                             select new ProductDetailDto { ProductId = p.Id, ProductName = p.Uadi, CategoryName = c.CategoryName, UnitInStock = p.Ufiyat };
-                return result.ToList();
-            }
+            using NorthWindContext context = new();
+            var result = from p in context.Products
+                         join c in context.Categories
+                         on p.CategoryID equals c.CategoryId
+                         select new ProductDetailDto 
+                         { 
+                             ProductId = p.ProductID, ProductName = p.ProductName, 
+                             CategoryName = c.CategoryName, UnitInStock = p.UnitsInStock 
+                         };
+            return result.ToList();
         }
     }
 }

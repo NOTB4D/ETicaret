@@ -1,4 +1,6 @@
-﻿using EL.Concrete;
+﻿using Core.Utilities.Results;
+using EL.Concrete;
+using EL.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,10 @@ namespace BL.Abstract
 {
    public interface ICategoryService
     {
-        List<Category> GetAll();
-       Category GetById(int categoryId);
+        IDataResult<List<Category>> GetAll();
+        IDataResult<List<Category>> GetAllByCategoryId(int Id);
+        IDataResult<List<CategoryDetailDto>> GetCategoryDetails();
+        IDataResult<Category> GetById(int categoryId);
+        IResult Add(Category category);
     }
 }
