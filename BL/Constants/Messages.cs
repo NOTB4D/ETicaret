@@ -12,5 +12,8 @@ namespace BL.Constants
         public static string ProductNameInvalid = "Ürün İsmi Gecersiz";
         public static string ProductListed = "Ürünler Listelendi";
         public static string CategoryListed = "Kategoriler Listelendi";
+        public static string ProductCountofCategoryError = "Kategori Limitini Aştınız";
+        public static string CategoryLimitExceded = "Kategory Limiti aşıldığı için ürün eklenemiyor";
+        public static string ProductNameAlreadyExists = "Ürün Adı Mevcut";
     }
 }

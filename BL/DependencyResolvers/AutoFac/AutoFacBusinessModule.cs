@@ -1,6 +1,10 @@
 ﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
 using BL.Abstract;
+using BL.CCS;
 using BL.Concrete;
+using Castle.DynamicProxy;
+using Core.Utilities.Interceptors;
 using DAL.Abstract;
 using DAL.Concrate.EntityFrameWork;
 using System;
@@ -17,6 +21,17 @@ namespace BL.DependencyResolvers.AutoFac
         {
             builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance();
             builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();
+            builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
+            builder.RegisterType<EfCategoryDal>().As<ICategoryDal>().SingleInstance();
+            
+
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
+                .EnableInterfaceInterceptors(new ProxyGenerationOptions()
+                {
+                    Selector = new AspectInterceptorSelector()
+                }).SingleInstance();
         }
     }
 }
