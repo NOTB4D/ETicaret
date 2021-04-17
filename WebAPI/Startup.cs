@@ -1,5 +1,6 @@
 using BL.Abstract;
 using BL.Concrete;
+using Core.Utilities.Ioc;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
 using DAL.Abstract;
@@ -15,10 +16,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Extensions;
+using Core.DependencyResolvers;
 
 namespace WebAPI
 {
@@ -40,6 +45,7 @@ namespace WebAPI
             //services.AddSingleton<IProductDal,EfProductDal>();
             //services.AddSingleton<ICategoryService,CategoryManager>();
             //services.AddSingleton<ICategoryDal,EfCategoryDal>();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
@@ -61,6 +67,7 @@ namespace WebAPI
                         IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
                     };
                 });
+            services.AddDependencyResolvers( new ICoreModule[] {new CoreModule() } );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

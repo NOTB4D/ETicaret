@@ -12,7 +12,7 @@ namespace BL.ValidationRules.FluentValidation
     {
         public ProductValidator()
         {
-            RuleFor(p => p.ProductName).MaximumLength(2);
+            RuleFor(p => p.ProductName).Length(2, 30);
             RuleFor(p => p.ProductName).NotEmpty();
             RuleFor(p => p.UnitPrice).NotEmpty();
             RuleFor(p => p.UnitPrice).GreaterThan(0);

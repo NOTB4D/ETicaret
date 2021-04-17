@@ -50,6 +50,7 @@ namespace BL.Concrete
                
             
         }
+        [CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {
             // iş kodları varsa yaz
