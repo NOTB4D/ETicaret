@@ -1,4 +1,5 @@
 ﻿using BL.Abstract;
+using BL.BusinessAspects.Autofac;
 using BL.CCS;
 using BL.Constants;
 using BL.ValidationRules.FluentValidation;
@@ -30,6 +31,7 @@ namespace BL.Concrete
             _categoryservice = categoryService;
             
         }
+        [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
