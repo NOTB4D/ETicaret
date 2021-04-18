@@ -3,6 +3,9 @@ using BL.BusinessAspects.Autofac;
 using BL.CCS;
 using BL.Constants;
 using BL.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
@@ -33,6 +36,7 @@ namespace BL.Concrete
         }
         [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
             // Business codes
@@ -61,7 +65,8 @@ namespace BL.Concrete
         {
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.ProductID == Id));
         }
-
+        [CacheAspect]
+        [PerformanceAspect(6)]
         public IDataResult<Product> GetById(int productId)
         {
             return new SuccessDataResult<Product> (_productDal.Get(p => p.ProductID == productId));
@@ -77,6 +82,7 @@ namespace BL.Concrete
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Product product)
         {
             var result = _productDal.GetAll(p => p.CategoryID == product.CategoryID).Count;
@@ -117,6 +123,12 @@ namespace BL.Concrete
                 return new ErrorResult(Messages.CategoryLimitExceded);
             }
             return new SuccessResult();
+        }
+    
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Product product)
+        {
+            throw new NotImplementedException();
         }
     }
 }
