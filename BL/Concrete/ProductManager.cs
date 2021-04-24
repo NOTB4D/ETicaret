@@ -63,7 +63,7 @@ namespace BL.Concrete
 
         public IDataResult<List<Product>> GetAllByCategoryId(int Id)
         {
-            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.ProductID == Id));
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryID == Id));
         }
         [CacheAspect]
         [PerformanceAspect(6)]
@@ -130,5 +130,7 @@ namespace BL.Concrete
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }
