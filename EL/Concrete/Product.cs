@@ -14,7 +14,7 @@ namespace EL.Concrete
         public string ProductName { get; set; }
         public short UnitsInStock { get; set; }
         public decimal UnitPrice { get; set; }
-        
-
+        public string Description { get; set; }
+        public int BrandId { get; set; }
     }
 }

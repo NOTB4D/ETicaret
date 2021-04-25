@@ -9,7 +9,7 @@ namespace EL.Concrete
 {
    public class Brand: IEntity
     {
-        public int MarkaId { get; set; }
-        public string MarkaAdi { get; set; }
+        public int BrandId { get; set; }
+        public string BrandName { get; set; }
     }
 }

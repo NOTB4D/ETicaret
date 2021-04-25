@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace EL.Concrete
 {
-   public class BasketProduct:IEntity
+    public  class ProductImage : IEntity
     {
-        public int BasketProductId { get; set; }
-
+        public int Id { get; set; }
         public int ProductId { get; set; }
-        public int ProductQuantity { get; set; }
+        public string ImagePath { get; set; }
+
     }
 }
