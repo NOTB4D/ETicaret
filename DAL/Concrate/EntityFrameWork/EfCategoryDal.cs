@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace DAL.Concrate.EntityFrameWork
 {
-    public class EfCategoryDal : EfEntityRepositoryBase<Category, NorthWindContext>, ICategoryDal
+    public class EfCategoryDal : EfEntityRepositoryBase<Category, EcommerceContext>, ICategoryDal
     {
         public List<CategoryDetailDto> GetCategoryDetails()
         {
-            using (NorthWindContext context = new NorthWindContext())
+            using (EcommerceContext context = new EcommerceContext())
 
             {
                 var result = from p in context.Products
                              join c in context.Categories
-                             on p.CategoryID equals c.CategoryId
+                             on p.SubCategoryId equals c.CategoryId
                              select new CategoryDetailDto { ProductId = p.ProductID, ProductName = p.ProductName, CategoryName = c.CategoryName, UnitInStock = p.UnitsInStock };
                 return result.ToList();
             }

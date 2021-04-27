@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DAL.Concrate.EntityFrameWork
 {
-    public class EfUserDal : EfEntityRepositoryBase<User, NorthWindContext>, IUserDal
+    public class EfUserDal : EfEntityRepositoryBase<User, EcommerceContext>, IUserDal
     {
         public List<OperationClaim> GetClaims(User user)
         {
-            using (var context = new NorthWindContext())
+            using (var context = new EcommerceContext())
             {
                 var result = from operationClaim in context.OperationClaims
                              join userOperationClaim in context.UserOperationClaims

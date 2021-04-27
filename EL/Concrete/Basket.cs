@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace EL.Concrete
 {
-   public class BasketProduct:IEntity
+   public class Basket:IEntity
     {
-        public int BasketProductId { get; set; }
+        public int BasketId { get; set; }
 
         public int ProductId { get; set; }
         public int ProductQuantity { get; set; }

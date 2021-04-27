@@ -9,7 +9,6 @@ namespace EL.DTOs
 {
    public  class ProductSubCategoryDto:IDto
     {
-        public int Id { get; set; }
         public int SubCategoryId { get; set; }
         public string SubCategoryName { get; set; }
         public int ProductId { get; set; }

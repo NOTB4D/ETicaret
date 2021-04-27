@@ -13,14 +13,14 @@ using System.Threading.Tasks;
 
 namespace DAL.Concrate.EntityFrameWork
 {
-    public class EfProductDal : EfEntityRepositoryBase<Product, NorthWindContext>, IProductDal
+    public class EfProductDal : EfEntityRepositoryBase<Product, EcommerceContext>, IProductDal
     {
         public List<ProductDetailDto> GetProductDetails()
         {
-            using NorthWindContext context = new();
+            using EcommerceContext context = new();
             var result = from p in context.Products
                          join c in context.Categories
-                         on p.CategoryID equals c.CategoryId
+                         on p.SubCategoryId equals c.CategoryId
                          select new ProductDetailDto 
                          { 
                              ProductId = p.ProductID, ProductName = p.ProductName, 
@@ -28,5 +28,24 @@ namespace DAL.Concrate.EntityFrameWork
                          };
             return result.ToList();
         }
+
+
+        public List<ProductSubCategoryDto> GetProductSubCategories()
+        {
+            using EcommerceContext context = new();
+            var result = from p in context.Products
+                         join s in context.SubCategories
+                         on p.SubCategoryId equals s.SubCategoryId
+                         select new ProductSubCategoryDto
+                         {
+                             ProductId = p.ProductID,
+                             ProductName = p.ProductName,
+                             SubCategoryId = s.SubCategoryId,
+                             SubCategoryName = s.SubCategoryName,
+                         };
+            return result.ToList();
+        }
     }
+
+   
 }

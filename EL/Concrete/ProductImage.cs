@@ -12,6 +12,7 @@ namespace EL.Concrete
         public int Id { get; set; }
         public int ProductId { get; set; }
         public string ImagePath { get; set; }
+        public DateTime Date { get; set; }
 
     }
 }

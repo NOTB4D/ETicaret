@@ -1,11 +1,12 @@
-﻿using BL.Constants;
+﻿using BL.Abstract;
+using BL.Constants;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
 using EL.DTOs;
 
-namespace BL.Abstract
+namespace BL.Concrete
 {
     public class AuthManager : IAuthService
     {

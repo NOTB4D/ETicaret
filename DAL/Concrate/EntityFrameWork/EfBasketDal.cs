@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Concrate.EntityFrameWork
 {
-   public class EfOrderDal : EfEntityRepositoryBase<Order, EcommerceContext>,IOrderDal
+   public  class EfBasketDal : EfEntityRepositoryBase<Basket,EcommerceContext>, IBasketDal
     {
     }
 }

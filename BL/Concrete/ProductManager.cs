@@ -34,7 +34,7 @@ namespace BL.Concrete
             _categoryservice = categoryService;
             
         }
-        [SecuredOperation("product.add,admin")]
+        [SecuredOperation("admin")]
         [ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
@@ -63,7 +63,7 @@ namespace BL.Concrete
 
         public IDataResult<List<Product>> GetAllByCategoryId(int Id)
         {
-            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryID == Id));
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.SubCategoryId == Id));
         }
         [CacheAspect]
         [PerformanceAspect(6)]
@@ -85,7 +85,7 @@ namespace BL.Concrete
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Product product)
         {
-            var result = _productDal.GetAll(p => p.CategoryID == product.CategoryID).Count;
+            var result = _productDal.GetAll(p => p.SubCategoryId == product.SubCategoryId).Count;
             if (result >= 10)
             {
                 return new ErrorResult(Messages.ProductAdded);
@@ -96,7 +96,7 @@ namespace BL.Concrete
         // 10 dan fazla kategory olamaz
         private IResult CheckIfProductCountCategoryCorrect(int categoryId)
         {
-            var result = _productDal.GetAll(p => p.CategoryID == categoryId).Count;
+            var result = _productDal.GetAll(p => p.SubCategoryId == categoryId).Count;
             if (result >= 10)
             {
                 return new ErrorResult(Messages.ProductCountofCategoryError);
