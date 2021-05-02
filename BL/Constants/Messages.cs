@@ -23,5 +23,9 @@ namespace BL.Constants
         public static string SuccessfulLogin = "Başarılı Giriş";
         public static string UserAlreadyExists = "Kullanıcı Adı Mevcut";
         public static string AccessTokenCreated = "Token Oluşturuldu";
+        public static string ProductImageNotFound = "Ürün Resmi Bulunamadı";
+        public static string ProductImageCountExceeded = "Resim Limiti Aşıldığı için Resim Eklenemiyor";
+        public static string ProductImageAdded = "Ürün Resmi Başarıyla Eklendi";
+        public static string ProductImageMustBeExists = "Ürün Resmi Mutlaka Olmalı";
     }
 }

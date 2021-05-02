@@ -13,5 +13,7 @@ namespace EL.Concrete
 
         public int ProductId { get; set; }
         public int ProductQuantity { get; set; }
+        public double Price { get; set;}
+        public int? OrderId { get; set; }
     }
 }

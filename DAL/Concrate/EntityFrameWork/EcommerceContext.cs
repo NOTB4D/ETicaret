@@ -19,7 +19,7 @@ namespace DAL.Concrate.EntityFrameWork
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Adress> Adresses { get; set; }
-        public DbSet<BasketProduct> BasketProducts { get; set; }
+        public DbSet<Basket> Basket { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }

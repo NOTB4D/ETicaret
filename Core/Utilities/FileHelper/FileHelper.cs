@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Utilities.FileHelper
 {
-    public class ProductImageHelper
+    public class FileHelper
     {
         static string directory = Directory.GetCurrentDirectory() + @"\wwwroot\";
         static string path = @"Images\";

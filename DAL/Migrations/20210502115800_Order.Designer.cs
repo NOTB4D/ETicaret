@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(EcommerceContext))]
-    [Migration("20210425194808_MyFirstMigration")]
-    partial class MyFirstMigration
+    [Migration("20210502115800_Order")]
+    partial class Order
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,12 +105,18 @@ namespace DAL.Migrations
                     b.ToTable("Adresses");
                 });
 
-            modelBuilder.Entity("EL.Concrete.BasketProduct", b =>
+            modelBuilder.Entity("EL.Concrete.Basket", b =>
                 {
-                    b.Property<int>("BasketProductId")
+                    b.Property<int>("BasketId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -118,9 +124,11 @@ namespace DAL.Migrations
                     b.Property<int>("ProductQuantity")
                         .HasColumnType("int");
 
-                    b.HasKey("BasketProductId");
+                    b.HasKey("BasketId");
 
-                    b.ToTable("BasketProducts");
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Basket");
                 });
 
             modelBuilder.Entity("EL.Concrete.Brand", b =>
@@ -191,11 +199,20 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Massage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("OrderNumber")
+                        .HasColumnType("int");
+
                     b.Property<string>("ShipCity")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -215,14 +232,14 @@ namespace DAL.Migrations
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SubCategoryId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
@@ -241,6 +258,9 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
@@ -273,6 +293,13 @@ namespace DAL.Migrations
                     b.ToTable("SubCategories");
                 });
 
+            modelBuilder.Entity("EL.Concrete.Basket", b =>
+                {
+                    b.HasOne("EL.Concrete.Order", null)
+                        .WithMany("baskets")
+                        .HasForeignKey("OrderId");
+                });
+
             modelBuilder.Entity("EL.Concrete.SubCategory", b =>
                 {
                     b.HasOne("EL.Concrete.Category", null)
@@ -285,6 +312,11 @@ namespace DAL.Migrations
             modelBuilder.Entity("EL.Concrete.Category", b =>
                 {
                     b.Navigation("SubCategory");
+                });
+
+            modelBuilder.Entity("EL.Concrete.Order", b =>
+                {
+                    b.Navigation("baskets");
                 });
 #pragma warning restore 612, 618
         }

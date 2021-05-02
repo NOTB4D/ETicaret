@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class MyFirstMigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,17 +23,17 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BasketProducts",
+                name: "Basket",
                 columns: table => new
                 {
-                    BasketProductId = table.Column<int>(type: "int", nullable: false)
+                    BasketId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     ProductQuantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BasketProducts", x => x.BasketProductId);
+                    table.PrimaryKey("PK_Basket", x => x.BasketId);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,7 +115,8 @@ namespace DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,7 +129,7 @@ namespace DAL.Migrations
                 {
                     ProductID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryID = table.Column<int>(type: "int", nullable: false),
+                    SubCategoryId = table.Column<int>(type: "int", nullable: false),
                     ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UnitsInStock = table.Column<short>(type: "smallint", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -204,7 +205,7 @@ namespace DAL.Migrations
                 name: "Adresses");
 
             migrationBuilder.DropTable(
-                name: "BasketProducts");
+                name: "Basket");
 
             migrationBuilder.DropTable(
                 name: "Brands");
