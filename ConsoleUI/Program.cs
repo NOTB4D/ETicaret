@@ -9,7 +9,7 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             //Data Transformation Object
-            ProductTest();
+            /*ProductTest()*/;
             //IoC 
             CategoryTest();
         }
@@ -24,22 +24,22 @@ namespace ConsoleUI
         }
 
 
-        private static void ProductTest()
-        {
-            ProductManager productManager = new ProductManager(new EfProductDal(),new CategoryManager(new EfCategoryDal()));
-            var result = productManager.GetProductDetails();
+        //private static void ProductTest()
+        //{
+        //    ProductManager productManager = new ProductManager(new EfProductDal(), new CategoryManager(new EfCategoryDal()));
+        //    var result = productManager.GetProductDetails();
 
-            if (result.Success == true)
-            {
-                foreach (var product in result.Data)
-                {
-                    Console.WriteLine(product.ProductName + "/" + product.CategoryName);
-                }
-            }
-            else
-            {
-                Console.WriteLine(result.Message);
-            }
-        }
+        //    if (result.Success == true)
+        //    {
+        //        foreach (var product in result.Data)
+        //        {
+        //            Console.WriteLine(product.ProductName + "/" + product.CategoryName);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine(result.Messages);
+        //    }
+        //}
     }
 }

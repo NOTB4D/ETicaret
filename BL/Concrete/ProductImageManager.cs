@@ -141,5 +141,19 @@ namespace BL.Concrete
                 return new SuccessResult();
             return new ErrorResult(Messages.ProductImageMustBeExists);
         }
+
+        public IResult DeleteByProductId(int ProductId)
+        {
+            var result = _ProductImageDal.GetAll(x => x.Id == ProductId);
+            if (result.Any())
+            {
+                foreach (var productImage in result)
+                {
+                    Delete(productImage);
+                }
+                return new SuccessResult();
+            }
+            return new ErrorResult(Messages.ProductHaveNoImage);
+        }
     }
 }

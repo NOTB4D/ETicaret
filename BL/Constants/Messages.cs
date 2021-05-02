@@ -27,5 +27,16 @@ namespace BL.Constants
         public static string ProductImageCountExceeded = "Resim Limiti Aşıldığı için Resim Eklenemiyor";
         public static string ProductImageAdded = "Ürün Resmi Başarıyla Eklendi";
         public static string ProductImageMustBeExists = "Ürün Resmi Mutlaka Olmalı";
+        public static string ProductHaveNoImage = "Ürün Resmi Bulunmamaktadır";
+        public static string CustomerAdded = "Müşteri eklendi";
+        public static string CustomerDeleted = "Müşteri Silindi";
+        public static string CustomersListed = "Müşteriler Listelendi";
+        public static string CustomerUpdated = "Müsteri Bilgileri Güncellendi";
+        public static string AddressAdded = "Adres Eklendi";
+        public static string AddressDeleted = "Adres Silindi";
+        public static string AddressListed = "Adressler Listelendi";
+
+        public static object BrandAdded = "Marka Eklendi";
+        public static string BrandListed = "Marklar Listelendi";
     }
 }

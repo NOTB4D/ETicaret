@@ -26,12 +26,14 @@ namespace BL.Concrete
     {
         IProductDal _productDal;
         ICategoryService _categoryservice;
+        IProductImageService _productImageService;
 
         
-        public ProductManager(IProductDal productDal,ICategoryService categoryService)
+        public ProductManager(IProductDal productDal,ICategoryService categoryService, IProductImageService productImageService)
         {
             _productDal = productDal;
             _categoryservice = categoryService;
+            _productImageService = productImageService;
             
         }
         [SecuredOperation("admin")]
@@ -128,9 +130,22 @@ namespace BL.Concrete
         [TransactionScopeAspect]
         public IResult AddTransactionalTest(Product product)
         {
-            throw new NotImplementedException();
+            Add(product);
+            if (product.UnitPrice < 10)
+            {
+                throw new Exception("");
+            }
+
+            Add(product);
+
+            return null;
         }
 
-        
+        public IResult Delete(Product product)
+        {
+            _productDal.Delete(product);
+            _productImageService.DeleteByProductId(product.ProductID);
+            return new SuccessResult();
+        }
     }
 }

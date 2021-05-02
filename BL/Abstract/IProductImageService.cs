@@ -19,6 +19,6 @@ namespace BL.Abstract
         IResult Update(IFormFile file, ProductImage productImage);
         IResult Delete(ProductImage productImage);
         IDataResult<ProductImage> GetById(int Id);
-
+        IResult DeleteByProductId(int ProductId);
     }
 }

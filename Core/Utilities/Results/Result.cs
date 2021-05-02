@@ -11,7 +11,7 @@ namespace Core.Utilities.Results
 
         public Result(bool success, string message) : this(success)
         {
-            Message = message;
+            Messages = message;
         }
 
         public Result(bool success)
@@ -21,6 +21,6 @@ namespace Core.Utilities.Results
 
         public bool Success { get; }
 
-        public string Message { get; }
+        public string Messages { get; }
     }
 }
