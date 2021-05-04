@@ -68,7 +68,7 @@ namespace BL.Concrete
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.SubCategoryId == Id));
         }
         [CacheAspect]
-        [PerformanceAspect(6)]
+        
         public IDataResult<Product> GetById(int productId)
         {
             return new SuccessDataResult<Product> (_productDal.Get(p => p.ProductID == productId));
@@ -83,16 +83,12 @@ namespace BL.Concrete
         {
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
-        [ValidationAspect(typeof(ProductValidator))]
+        
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Product product)
         {
-            var result = _productDal.GetAll(p => p.SubCategoryId == product.SubCategoryId).Count;
-            if (result >= 10)
-            {
-                return new ErrorResult(Messages.ProductAdded);
-            }
-            throw new NotImplementedException();
+            _productDal.Update(product);
+            return new SuccessResult();
         }
 
         // 10 dan fazla kategory olamaz
@@ -120,7 +116,7 @@ namespace BL.Concrete
         private IResult CheckIfCategoryLimitExceded()
         {
             var result = _categoryservice.GetAll();
-            if (result.Data.Count>15)
+            if (result.Data.Count>150)
             {
                 return new ErrorResult(Messages.CategoryLimitExceded);
             }

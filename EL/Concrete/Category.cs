@@ -12,6 +12,6 @@ namespace EL.Concrete
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
 
-        public ICollection<SubCategory> SubCategory { get; set; }
+        //public ICollection<SubCategory> SubCategory { get; set; }
     }
 }

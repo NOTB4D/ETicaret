@@ -41,5 +41,35 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+        [HttpDelete("Delete")]
+        public IActionResult Delete(Category category)
+        {
+            var result = _categoryService.Delete(category);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpPut("Update")]
+        public IActionResult Update(Category category)
+        {
+            var result = _categoryService.Update(category);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpGet("GetById")]
+        public IActionResult  GetById(int Id)
+        {
+            var result = _categoryService.GetById(Id);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }

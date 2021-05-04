@@ -12,9 +12,11 @@ namespace BL.Abstract
    public interface ICategoryService
     {
         IDataResult<List<Category>> GetAll();
-        IDataResult<List<Category>> GetAllByCategoryId(int Id);
         IDataResult<List<CategoryDetailDto>> GetCategoryDetails();
         IDataResult<Category> GetById(int categoryId);
         IResult Add(Category category);
+
+        IResult Update(Category category);
+        IResult Delete(Category category);
     }
 }

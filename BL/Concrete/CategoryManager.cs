@@ -31,16 +31,19 @@ namespace BL.Concrete
             return new SuccessResult(Messages.ProductAdded);
         }
 
+        public IResult Delete(Category category)
+        {
+            _categoryDal.Delete(category);
+            return new SuccessResult();
+        }
+
         public IDataResult<List<Category>> GetAll()
         {
             //İş kodları
             return new SuccessDataResult<List<Category>>(_categoryDal.GetAll());
         }
 
-        public IDataResult<List<Category>> GetAllByCategoryId(int Id)
-        {
-            return new SuccessDataResult<List<Category>>(_categoryDal.GetAll(p => p.CategoryId == Id));
-        }
+      
 
         public IDataResult<Category> GetById(int categoryId)
         {
@@ -50,6 +53,12 @@ namespace BL.Concrete
         public IDataResult<List<CategoryDetailDto>> GetCategoryDetails()
         {
             return new SuccessDataResult<List<CategoryDetailDto>>(_categoryDal.GetCategoryDetails());
+        }
+
+        public IResult Update(Category category)
+        {
+            _categoryDal.Update(category);
+            return new SuccessResult();
         }
     }
 }
