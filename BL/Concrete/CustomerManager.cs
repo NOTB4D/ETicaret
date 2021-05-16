@@ -27,9 +27,9 @@ namespace BL.Concrete
             return new SuccessResult(Messages.CustomerAdded);
         }
         [SecuredOperation("Admin")]
-        public IResult Delete(Customer customer)
+        public IResult Delete(int customerId)
         {
-            _CustomerDal.Delete(customer);
+            _CustomerDal.Delete(GetById(customerId).Data);
             return new SuccessResult(Messages.CustomerDeleted);
         }
         [SecuredOperation("Admin")]

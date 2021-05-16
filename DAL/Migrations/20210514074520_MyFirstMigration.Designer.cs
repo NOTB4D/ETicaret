@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(EcommerceContext))]
-    [Migration("20210504172308_subcategory")]
-    partial class subcategory
+    [Migration("20210514074520_MyFirstMigration")]
+    partial class MyFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -180,12 +180,6 @@ namespace DAL.Migrations
 
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("CustomerName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CustomerSurName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentityNumber")
                         .HasColumnType("nvarchar(max)");

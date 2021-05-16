@@ -11,12 +11,14 @@ namespace BL.Concrete
     public class AuthManager : IAuthService
     {
         private IUserService _userService;
-        private ITokenHelper _tokenHelper;
+        private ITokenHelper _tokenHelper; 
+        private readonly IUserOperationClaimService _userOperationClaimService;
 
-        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
+        public AuthManager(IUserService userService, ITokenHelper tokenHelper, IUserOperationClaimService userOperationClaimService)
         {
             _userService = userService;
             _tokenHelper = tokenHelper;
+            _userOperationClaimService = userOperationClaimService;
         }
 
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
@@ -33,6 +35,7 @@ namespace BL.Concrete
                 Status = true
             };
             _userService.Add(user);
+            _userOperationClaimService.AddUserClaim(user);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
         }
 

@@ -11,8 +11,6 @@ namespace EL.Concrete
     {
         public string CustomerId { get; set; }
         public int UserId { get; set; }
-        public string CustomerName { get; set; }
-        public string CustomerSurName { get; set; }
         public int AdressId { get; set; }
         public long PhoneNumber { get; set; }
         public DateTime BirthDay { get; set; }

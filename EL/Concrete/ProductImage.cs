@@ -14,5 +14,10 @@ namespace EL.Concrete
         public string ImagePath { get; set; }
         public DateTime Date { get; set; }
 
+        public ProductImage()
+        {
+            Date = DateTime.Now;
+        }
+
     }
 }

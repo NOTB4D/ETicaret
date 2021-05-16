@@ -26,26 +26,25 @@ namespace BL.Concrete
     {
         IProductDal _productDal;
         ICategoryService _categoryservice;
-        IProductImageService _productImageService;
+        //IProductImageService _productImageService;
 
         
-        public ProductManager(IProductDal productDal,ICategoryService categoryService, IProductImageService productImageService)
+        public ProductManager(IProductDal productDal,ICategoryService categoryService /*IProductImageService productImageService*/)
         {
             _productDal = productDal;
             _categoryservice = categoryService;
-            _productImageService = productImageService;
+            //_productImageService = productImageService;
             
         }
-        [SecuredOperation("admin")]
-        [ValidationAspect(typeof(ProductValidator))]
-        [CacheRemoveAspect("IProductService.Get")]
+        //[SecuredOperation("admin")]
+        //[ValidationAspect(typeof(ProductValidator))]
+        //[CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
             // Business codes
             //validation
            IResult result = BusinessRules.Run(CheckIfProductNameExists(product.ProductName), 
-                CheckIfProductCountCategoryCorrect(product.ProductID),
-                CheckIfCategoryLimitExceded());
+                CheckIfProductCountCategoryCorrect(product.ProductID));
             if(result!=null)
             {
                 return result;
@@ -56,18 +55,18 @@ namespace BL.Concrete
                
             
         }
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {
             // iş kodları varsa yaz
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductListed);
         }
 
-        public IDataResult<List<Product>> GetAllByCategoryId(int Id)
+        public IDataResult<List<Product>> GetAllBySubCategoryId(int Id)
         {
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.SubCategoryId == Id));
         }
-        [CacheAspect]
+        //[CacheAspect]
         
         public IDataResult<Product> GetById(int productId)
         {
@@ -137,11 +136,21 @@ namespace BL.Concrete
             return null;
         }
 
-        public IResult Delete(Product product)
+        public IResult Delete(int productId)
         {
-            _productDal.Delete(product);
-            _productImageService.DeleteByProductId(product.ProductID);
+            _productDal.Delete(GetById(productId).Data);
+            //_productImageService.DeleteByProductId(product.ProductID);
             return new SuccessResult();
+        }
+
+        public IDataResult<List<ProductDetailDto>> GetProductDetailsByProductId(int Id)
+        {
+            return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails(p=>p.ProductId == Id));
+        }
+
+        public IDataResult<List<ProductDetailDto>> GetProductDetailsBySubcategoryId(int Id)
+        {
+            return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails(p=>p.SubCategoryId==Id));
         }
     }
 }

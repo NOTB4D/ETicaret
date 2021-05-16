@@ -2,14 +2,12 @@
 using BL.BusinessAspects.Autofac;
 using BL.Constants;
 using BL.ValidationRules.FluentValidation;
-using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.FileHelper;
 using Core.Utilities.Results;
 using DAL.Abstract;
 using EL.Concrete;
-using EL.DTOs;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -21,139 +19,104 @@ namespace BL.Concrete
 {
     public class ProductImageManager : IProductImageService
     {
-        private readonly IProductImageDal _ProductImageDal;
-        private readonly IProductService _productService;
-        private readonly IProductImageService _productImageService;
 
+        IProductImageDal _productImageDal;
 
-
-        public ProductImageManager(IProductService productService, IProductImageDal productImageDal, IProductImageService  productImageService)
+        public ProductImageManager(IProductImageDal productImageDal)
         {
-            _ProductImageDal = productImageDal;
-            _productService = productService;
-            _productImageService = productImageService;
+            _productImageDal = productImageDal;
         }
 
-        [SecuredOperation("Admin")]
-        [ValidationAspect(typeof(ProductImageValidator))]
+        //[ValidationAspect(typeof(ProductImageValidator))]
+        //[SecuredOperation("admin")]
         public IResult Add(IFormFile file, ProductImage productImage)
         {
-            var result = BusinessRules.Run(CheckProductImagesCount(productImage.ProductId));
-            if(result!=null)
-            {
-                return result;
-            }
-            var query = this.Get(productImage.ProductId).Data;
-            if(query.ImagePath.Contains("default"))
-            {
-                productImage.ImagePath = FileHelper.Add(file);
-                productImage.ProductId = productImage.ProductId;
-                productImage.Date = DateTime.Now;
-                productImage.Id = query.Id;
-                _ProductImageDal.Update(productImage);
-                    
-            }
-            else
-            {
-                productImage.ImagePath = FileHelper.Add(file);
-                productImage.Date = DateTime.Now;
-                _ProductImageDal.Add(productImage);
-
-            }
-            return new SuccessResult(Messages.ProductImageAdded);
-        }
-        [SecuredOperation("Admin")]
-        public IResult Delete(ProductImage productImage)
-        {
-            IResult result = BusinessRules.Run(CheckIfImageExists(productImage.Id));
-            if (result != null)
-            {
-                return result;
-            }
-            string path = GetById(productImage.Id).Data.ImagePath;
-            FileHelper.Delete(path);
-            _ProductImageDal.Delete(productImage);
-            return new SuccessResult();
-        }
-
-        public IDataResult<ProductImage> Get(int id)
-        {
-            var productImage = _ProductImageDal.Get(PI => PI.Id == id);
-            if( productImage == null)
-            {
-                return new ErrorDataResult<ProductImage>(Messages.ProductImageNotFound);
-            }
-            return new SuccessDataResult<ProductImage>(productImage);
-                 
-        }
-        [CacheAspect]
-        public IDataResult<List<ProductImage>> GetAll()
-        {
-            return new SuccessDataResult<List<ProductImage>>(_ProductImageDal.GetAll());
-        }
-
-        public IDataResult<List<ProductImageDto>> GetByProductId(int ProductId)
-        {
-            var result = _productImageService.GetByProductId(ProductId);
-            if(result.Data.Any())
-            {
-                return new SuccessDataResult<List<ProductImageDto>>(result.Data);
-            }
-            return new SuccessDataResult<List<ProductImageDto>>(new List<ProductImageDto> { new ProductImageDto { ImagePath = "default.jpg", Date = DateTime.Now } });
-        }
-        [SecuredOperation("Admin")]
-        public IResult Update(IFormFile file, ProductImage productImage)
-        {
-            IResult result = BusinessRules.Run(CheckIfImageExists(productImage.Id));
-            if ( result !=null)
-            {
-                return result;
-            }
-
-            ProductImage oldproductImage = GetById(productImage.Id).Data;
-            productImage.ImagePath = FileHelper.Update(file, oldproductImage.ImagePath);
-            productImage.Date = DateTime.Now;
-            productImage.ProductId = oldproductImage.Id;
-            _ProductImageDal.Update(productImage);
-            return new SuccessResult();
-
-        }
-
-       
-
-        public IDataResult<ProductImage> GetById(int Id)
-        {
-            return new SuccessDataResult<ProductImage>(_ProductImageDal.Get(PI => PI.Id == Id));
-        }
-        
-        private IResult CheckProductImagesCount(int ProductId)
-        {
-            var result = _ProductImageDal.GetAll(PI => PI.ProductId == ProductId).Count < 5;
-            if(!result)
+            var imageCount = _productImageDal.GetAll(p => p.ProductId == productImage.ProductId).Count;
+            if (imageCount>=5)
             {
                 return new ErrorResult(Messages.ProductImageCountExceeded);
             }
-            return new SuccessResult();
+            var imageResult = FileHelper.Upload(file);
+            if(!imageResult.Success)
+            {
+                return new ErrorResult(imageResult.Messages);
+            }
+            productImage.ImagePath = imageResult.Messages;
+            _productImageDal.Add(productImage);
+            return new SuccessResult(Messages.ProductImageAdded);
         }
-        private IResult CheckIfImageExists(int id)
+        //[ValidationAspect(typeof(ProductImageValidator))]
+        //[SecuredOperation("admin")]
+        public IResult Delete(int Id)
         {
-            if (_ProductImageDal.IsExist(id))
-                return new SuccessResult();
-            return new ErrorResult(Messages.ProductImageMustBeExists);
+            var image = _productImageDal.Get(p => p.Id == Id);
+            if (image==null)
+            {
+                return new ErrorResult(Messages.ProductHaveNoImage);
+            }
+            FileHelper.Delete(image.ImagePath);
+            _productImageDal.Delete(Get(Id).Data);
+            return new SuccessResult(Messages.productDeleted);
         }
 
-        public IResult DeleteByProductId(int ProductId)
+        public IDataResult<ProductImage> Get(int Id)
         {
-            var result = _ProductImageDal.GetAll(x => x.Id == ProductId);
-            if (result.Any())
-            {
-                foreach (var productImage in result)
-                {
-                    Delete(productImage);
-                }
-                return new SuccessResult();
-            }
-            return new ErrorResult(Messages.ProductHaveNoImage);
+            return new SuccessDataResult<ProductImage>(_productImageDal.Get(p => p.Id == Id));
         }
+
+        public IDataResult<List<ProductImage>> GetAAll()
+        {
+            return new SuccessDataResult<List<ProductImage>>(_productImageDal.GetAll());
+        }
+
+        public IDataResult<List<ProductImage>> GetImageByProductId(int Id)
+        {
+            IResult result = BusinessRules.Run(CheckIfProductImageNull(Id));
+            if(result != null)
+            {
+                return new ErrorDataResult<List<ProductImage>>(result.Messages);
+            }
+            return new SuccessDataResult<List<ProductImage>>(CheckIfProductImageNull(Id).Data);
+        }
+
+        //[SecuredOperation("admin")]
+            public IResult Update(IFormFile file, ProductImage productImage)
+        {
+            var IsImage = _productImageDal.Get(p => p.Id == productImage.Id);
+            if(IsImage == null)
+            {
+                return new ErrorResult(Messages.ProductHaveNoImage);
+            }
+            var updatedFile = FileHelper.Update(file, IsImage.ImagePath);
+            if (!updatedFile.Success)
+            {
+                return new ErrorResult(updatedFile.Messages);
+            }
+            productImage.ImagePath = updatedFile.Messages;
+            return new SuccessResult(Messages.productImageUpdated);
+        }
+
+        private IDataResult<List<ProductImage>> CheckIfProductImageNull(int id)
+        {
+            try
+            {
+                string path = @"\images\logo.jpg";
+                var result = _productImageDal.GetAll(c => c.ProductId == id).Any();
+                if (!result)
+                {
+                    List<ProductImage> productImage = new List<ProductImage>();
+                    productImage.Add(new ProductImage { ProductId = id, ImagePath = path, Date = DateTime.Now });
+                    return new SuccessDataResult<List<ProductImage>>(productImage);
+                }
+            }
+            catch (Exception exception)
+            {
+
+                return new ErrorDataResult<List<ProductImage>>(exception.Message);
+            }
+
+            return new SuccessDataResult<List<ProductImage>>(_productImageDal.GetAll(p => p.ProductId == id).ToList());
+        }
+
     }
 }

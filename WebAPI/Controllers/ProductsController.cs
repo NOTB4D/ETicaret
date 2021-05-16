@@ -1,6 +1,5 @@
 ﻿using BL.Abstract;
-using BL.Concrete;
-using DAL.Concrate.EntityFrameWork;
+using Core.Utilities.Results;
 using EL.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +15,6 @@ namespace WebAPI.Controllers
     public class ProductsController : ControllerBase
     {
         IProductService _productService;
-
         public ProductsController(IProductService productService)
         {
             _productService = productService;
@@ -25,7 +23,6 @@ namespace WebAPI.Controllers
         [HttpGet("GetAll")]
         public IActionResult Get()
         {
-            
             var result = _productService.GetAll();
             if (result.Success)
             {
@@ -33,26 +30,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-        [HttpGet("GetByCategory")]
-        public IActionResult GetByCategory(int categoryId)
-        {
-            var result = _productService.GetAllByCategoryId(categoryId);
-            if(result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-        [HttpGet("GetById")]
-        public IActionResult GetById(int id)
-        {
-            var result = _productService.GetById(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
+
         [HttpPost("Add")]
         public IActionResult Add(Product product)
         {
@@ -63,6 +41,38 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-        
+
+        [HttpGet("GetBySubcategoryId")]
+        public IDataResult<List<Product>> GetBySubcategoryId(int Id)
+        {
+            var result = _productService.GetAllBySubCategoryId(Id);
+
+            return result;
+            
+        }
+
+        [HttpGet("getproductDetails")]
+        public IActionResult GetProductDetails(int Id)
+        {
+            var result = _productService.GetProductDetailsByProductId(Id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("getproductDetailsBySubcategory")]
+        public IActionResult GetProductDetailsBySubcategory(int Id)
+        {
+            var result = _productService.GetProductDetailsBySubcategoryId(Id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }

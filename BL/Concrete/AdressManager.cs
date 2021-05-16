@@ -29,9 +29,9 @@ namespace BL.Concrete
             return new SuccessResult(Messages.AddressAdded);
         }
 
-        public IResult Delete(Adress adress)
+        public IResult Delete(int adressId)
         {
-            _adressDal.Delete(adress);
+            _adressDal.Delete(GetById(adressId).Data);
             return new SuccessResult(Messages.AddressDeleted);
         }
 
@@ -39,6 +39,12 @@ namespace BL.Concrete
         {
             _adressDal.Get(x => x.CostumerId.Equals(customerId));
             return new SuccessDataResult<List<Adress>>();
+        }
+
+        public IDataResult<Adress> GetById(int adressId)
+        {
+            
+            return new SuccessDataResult<Adress>(_adressDal.Get(a => a.AdressId.Equals(adressId)));
         }
 
         public IResult Update(Adress adress)

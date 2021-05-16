@@ -1,6 +1,4 @@
 ﻿using BL.Abstract;
-using BL.Concrete;
-using DAL.Concrate.EntityFrameWork;
 using EL.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,63 +7,70 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class BrandController : ControllerBase
     {
-        ICategoryService _categoryService;
-        public CategoryController(ICategoryService categoryService)
+        IBrandService _brandService;
+
+        public BrandController(IBrandService brandService)
         {
-            _categoryService = categoryService;
+            _brandService = brandService;
         }
+
+
+        [HttpPost("Add")]
+        public IActionResult Add(Brand brand)
+        {
+            var result = _brandService.Add(brand);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
         [HttpGet("GetAll")]
         public IActionResult Get()
         {
-            var result = _categoryService.GetAll();
+            var result = _brandService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-        [HttpPost("Add")]
-        public IActionResult Add(Category category)
-        {
-            var result = _categoryService.Add(category);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-        [HttpPost("Delete")]
-        public IActionResult Delete(int categoryId)
-        {
-            var result = _categoryService.Delete(categoryId);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
+
         [HttpPost("Update")]
-        public IActionResult Update(Category category)
+        public IActionResult Update(Brand brand)
         {
-            var result = _categoryService.Update(category);
+            var result = _brandService.Update(brand);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-        [HttpGet("GetById")]
-        public IActionResult  GetById(int Id)
+
+        [HttpPost("Delete")]
+        public IActionResult Delete(int brandId)
         {
-            var result = _categoryService.GetById(Id);
-            if(result.Success)
+            var result = _brandService.Delete(brandId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("GetById")]
+        public IActionResult GetById(int Id)
+        {
+            var result = _brandService.GetById(Id);
+            if (result.Success)
             {
                 return Ok(result);
             }

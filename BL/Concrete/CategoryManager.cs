@@ -1,5 +1,6 @@
 ﻿using BL.Abstract;
 using BL.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DAL.Abstract;
 using EL.Concrete;
@@ -22,6 +23,8 @@ namespace BL.Concrete
 
         public IResult Add(Category category)
         {
+            IResult result = BusinessRules.Run(ChechIfCategoryNameExist(category.CategoryName));
+
             // Business codes
             if (category.CategoryName.Length < 2)
             {
@@ -31,9 +34,9 @@ namespace BL.Concrete
             return new SuccessResult(Messages.ProductAdded);
         }
 
-        public IResult Delete(Category category)
+        public IResult Delete(int categoryId)
         {
-            _categoryDal.Delete(category);
+            _categoryDal.Delete(GetById(categoryId).Data);
             return new SuccessResult();
         }
 
@@ -58,6 +61,18 @@ namespace BL.Concrete
         public IResult Update(Category category)
         {
             _categoryDal.Update(category);
+            return new SuccessResult();
+        }
+
+
+        // aynı isimde kategory eklenemez
+        public IResult ChechIfCategoryNameExist(string categoryName)
+        {
+            var result = _categoryDal.GetAll(c => c.CategoryName == categoryName).Any();
+            if(result)
+            {
+                return new ErrorResult(Messages.CategoryAlreadyExist);
+            }
             return new SuccessResult();
         }
     }

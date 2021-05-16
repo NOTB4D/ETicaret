@@ -38,5 +38,12 @@ namespace BL.Constants
 
         public static object BrandAdded = "Marka Eklendi";
         public static string BrandListed = "Marklar Listelendi";
+
+        public static string CategoryAlreadyExist = "Bu isimde kategori mevcut";
+
+        public static string SubCategoryAdded = "Alt KAtegory Eklendi";
+
+        public static string productDeleted = "Ürün Resmi Silindi";
+        public static string productImageUpdated = "Ürün Resmi Güncellendi";
     }
 }

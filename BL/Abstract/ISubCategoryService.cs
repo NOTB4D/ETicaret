@@ -10,10 +10,11 @@ namespace BL.Abstract
 {
    public interface ISubCategoryService
     {
-        IResult Delete(SubCategory subCategory);
+        IResult Delete(int subCategoryId);
         IResult Update(SubCategory subCategory);
         IResult Add(SubCategory subCategory);
         IDataResult<List<SubCategory>> GetAll();
-        IDataResult<SubCategory> GetByCategoryId(int categoryId);
+        IDataResult<List<SubCategory>> GetByCategoryId(int categoryId);
+        IDataResult<SubCategory> GetById(int subCategoryId);
     }
 }

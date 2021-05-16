@@ -40,8 +40,8 @@ namespace WebAPI
         {
 
             services.AddControllers().AddNewtonsoftJson();
-            //services.AddSingleton<IProductService,ProductManager>();
-            //services.AddSingleton<IProductDal,EfProductDal>();
+            //services.AddSingleton<IProductService, ProductManager>();
+            //services.AddSingleton<IProductDal, EfProductDal>();
             //services.AddSingleton<ICategoryService,CategoryManager>();
             //services.AddSingleton<ICategoryDal,EfCategoryDal>();
             services.AddCors();
@@ -84,6 +84,8 @@ namespace WebAPI
             app.UseCors(builder => builder.WithOrigins("https://localhost:4200").AllowAnyHeader());
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 

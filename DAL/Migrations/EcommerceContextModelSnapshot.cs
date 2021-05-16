@@ -179,12 +179,6 @@ namespace DAL.Migrations
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CustomerName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CustomerSurName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("IdentityNumber")
                         .HasColumnType("nvarchar(max)");
 

@@ -20,16 +20,16 @@ namespace BL.Concrete
         {
             _branDal = brandDal;
         }
-        [SecuredOperation("Admin")]
+        //[SecuredOperation("Admin")]
         public IResult Add(Brand brand)
         {
             _branDal.Add(brand);
             return new SuccessResult();
         }
         [SecuredOperation("Admin")]
-        public IResult Delete(Brand brand)
+        public IResult Delete(int brandId)
         {
-            _branDal.Delete(brand);
+            _branDal.Delete(GetById(brandId).Data);
             return new SuccessResult();
         }
 

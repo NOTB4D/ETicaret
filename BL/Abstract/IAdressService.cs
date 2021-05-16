@@ -13,6 +13,7 @@ namespace BL.Abstract
         IDataResult<List<Adress>> GetByCustomerId(string customerId);
         IResult Add(Adress adress);
         IResult Update(Adress adress);
-        IResult Delete(Adress adress);
+        IResult Delete(int adressId);
+        IDataResult<Adress> GetById(int adressId);
     }
 }

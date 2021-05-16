@@ -1,6 +1,5 @@
 ﻿using Core.Utilities.Results;
 using EL.Concrete;
-using EL.DTOs;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -10,15 +9,13 @@ using System.Threading.Tasks;
 
 namespace BL.Abstract
 {
-   public  interface IProductImageService
+   public interface IProductImageService
     {
-        IDataResult<List<ProductImage>> GetAll();
-        IDataResult<ProductImage> Get(int id);
-        IDataResult<List<ProductImageDto>> GetByProductId(int ProductId);
         IResult Add(IFormFile file, ProductImage productImage);
+        IResult Delete(int Id);
         IResult Update(IFormFile file, ProductImage productImage);
-        IResult Delete(ProductImage productImage);
-        IDataResult<ProductImage> GetById(int Id);
-        IResult DeleteByProductId(int ProductId);
+        IDataResult<ProductImage> Get(int Id);
+        IDataResult<List<ProductImage>> GetAAll();
+        IDataResult<List<ProductImage>> GetImageByProductId(int Id);
     }
 }

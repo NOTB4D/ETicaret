@@ -12,7 +12,7 @@ namespace BL.Abstract
     {
         IResult Add(Brand brand);
         IResult Update(Brand brand);
-        IResult Delete(Brand brand);
+        IResult Delete(int brandId);
         IDataResult<List<Brand>> GetAll();
         IDataResult<Brand> GetById(int Id);
     }
