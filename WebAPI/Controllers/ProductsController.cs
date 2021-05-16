@@ -74,5 +74,19 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+
+        [HttpGet("getproductImageBySubcategory")]
+        public IActionResult GetProductImageBySubcategory(int Id)
+        {
+            var result = _productService.GetProductImageBySubcategoryId(Id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }
+

@@ -39,6 +39,23 @@ namespace DAL.Concrate.EntityFrameWork
             return filter == null ? result.ToList() : result.Where(filter).ToList();
         }
 
+        public List<ProductImageDetailDto> GetProductImageDetail(Expression<Func<ProductImageDetailDto, bool>> filter = null)
+        {
+            using EcommerceContext context = new();
+            var result = from Product in context.Products
+                         join SubCategory in context.SubCategories on Product.SubCategoryId equals SubCategory.SubCategoryId
+                         //join ProductImage in context.ProductImages on Product.ProductID equals ProductImage.ProductId  // bu joine gerek yok
+                         select new ProductImageDetailDto()
+                         {
+                             ProductId = Product.ProductID,
+                             ProductImage = context.ProductImages.FirstOrDefault(p => p.ProductId == Product.ProductID).ImagePath,
+                             ProductName = Product.ProductName,
+                             UnitPrice = Product.UnitPrice,
+                             SubCategoryId = SubCategory.SubCategoryId
+                         };
+            return filter == null ? result.ToList() : result.Where(filter).ToList();
+        }
+
         public List<ProductSubCategoryDto> GetProductSubCategories()
         {
             using EcommerceContext context = new();

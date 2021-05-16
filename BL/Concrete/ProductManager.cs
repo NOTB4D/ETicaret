@@ -152,5 +152,10 @@ namespace BL.Concrete
         {
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails(p=>p.SubCategoryId==Id));
         }
+
+        public IDataResult<List<ProductImageDetailDto>> GetProductImageBySubcategoryId(int Id)
+        {
+            return new SuccessDataResult<List<ProductImageDetailDto>>(_productDal.GetProductImageDetail(p => p.SubCategoryId == Id));
+        }
     }
 }
