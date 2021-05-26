@@ -22,11 +22,11 @@ namespace DAL.Concrate.EntityFrameWork
             var result = from Product in context.Products
                          join Brand in context.Brands on Product.BrandId equals Brand.BrandId
                          join SubCategory in context.SubCategories on Product.SubCategoryId equals SubCategory.SubCategoryId
-                         join Category in context.Categories on SubCategory.SubCategoryId equals Category.CategoryId
+                         
                          select new ProductDetailDto()
                          {
                              BrandName = Brand.BrandName,
-                             CategoryName = Category.CategoryName,
+                             
                              Description = Product.Description,
                              ProductId = Product.ProductID,
                              ProductImages = (from i in context.ProductImages where i.ProductId == Product.ProductID select i.ImagePath).ToList(),
@@ -51,7 +51,8 @@ namespace DAL.Concrate.EntityFrameWork
                              ProductImage = context.ProductImages.FirstOrDefault(p => p.ProductId == Product.ProductID).ImagePath,
                              ProductName = Product.ProductName,
                              UnitPrice = Product.UnitPrice,
-                             SubCategoryId = SubCategory.SubCategoryId
+                             SubCategoryId = SubCategory.SubCategoryId,
+                             UnitsInStock = Product.UnitsInStock
                          };
             return filter == null ? result.ToList() : result.Where(filter).ToList();
         }

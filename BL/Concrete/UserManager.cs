@@ -1,5 +1,6 @@
 ﻿using BL.Abstract;
 using Core.Entities.Concrete;
+using Core.Utilities.Results;
 using DAL.Abstract;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace BL.Concrete
             _userDal = userDal;
         }
 
-        public List<OperationClaim> GetClaims(User user)
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
-            return _userDal.GetClaims(user);
+            return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
         }
 
         public void Add(User user)

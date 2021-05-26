@@ -12,7 +12,7 @@ namespace EL.DTOs
 
         public int ProductId { get; set; }
         public string ProductName { get; set; }
-        public string CategoryName { get; set; }
+
         public double UnitInStock { get; set; }
         public string BrandName { get; set; }
         public int SubCategoryId { get; set; }

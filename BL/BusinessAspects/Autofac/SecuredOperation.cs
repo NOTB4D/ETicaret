@@ -13,15 +13,15 @@ using BL.Constants;
 
 namespace BL.BusinessAspects.Autofac
 {
-    // JWT için
+    //JWT
     public class SecuredOperation : MethodInterception
     {
-        private readonly string[] _roles;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private string[] _roles;
+        private IHttpContextAccessor _httpContextAccessor;
 
         public SecuredOperation(string roles)
         {
-            _roles = roles.Split(',');//Array Çevirir
+            _roles = roles.Split(',');
             _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
 
         }

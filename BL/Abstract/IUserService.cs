@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Concrete;
+using Core.Utilities.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace BL.Abstract
 {
     public interface IUserService
     {
-        List<OperationClaim> GetClaims(User user);
+        IDataResult<List<OperationClaim>> GetClaims(User user);
         void Add(User user);
         User GetByMail(string email);
         

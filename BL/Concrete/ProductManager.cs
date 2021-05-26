@@ -36,7 +36,7 @@ namespace BL.Concrete
             //_productImageService = productImageService;
             
         }
-        //[SecuredOperation("admin")]
+        [SecuredOperation("Admin")]
         //[ValidationAspect(typeof(ProductValidator))]
         //[CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
