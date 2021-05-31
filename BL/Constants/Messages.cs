@@ -45,5 +45,9 @@ namespace BL.Constants
 
         public static string productDeleted = "Ürün Resmi Silindi";
         public static string productImageUpdated = "Ürün Resmi Güncellendi";
+
+        public static string PaySuccess = "Ödemeniz Başarı ile Tamamlandı";
+
+        public static string CityAdd = "Şehir Başarıyla Eklendi";
     }
 }
