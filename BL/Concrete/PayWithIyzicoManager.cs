@@ -16,7 +16,7 @@ namespace BL.Concrete
     public class PayWithIyzicoManager : IPayService
 
     {
-         public  IResult PayWithIyzico(/*CreatePaymentRequest createPaymentRequest, PaymentCard _paymentCard, Buyer _buyer, Address address, Address shippinadress, List<BasketItem> _basketItems*/)
+         public  IResult PayWithIyzico(IyzicoModel ıyzicoModel)
         {
             Options options = new Options
             {
@@ -29,8 +29,8 @@ namespace BL.Concrete
             {
                 Locale = Locale.TR.ToString(),
                 ConversationId = "123456789",
-                Price = "1",
-                PaidPrice = "1.2",
+                Price = "0.3",
+                PaidPrice = "0.3",
                 Currency = Currency.TRY.ToString(),
                 Installment = 1,
                 BasketId = "B67832",
@@ -40,44 +40,45 @@ namespace BL.Concrete
 
             PaymentCard paymentCard = new PaymentCard
             {
-                CardHolderName = "John Doe",
-                CardNumber = "5528790000000008",
-                ExpireMonth = "12",
-                ExpireYear = "2030",
-                Cvc = "123",
-                RegisterCard = 0
+                CardHolderName = ıyzicoModel.CardHolderName,
+                CardNumber = ıyzicoModel.CardNumber,
+                ExpireMonth = ıyzicoModel.ExpireMonth,
+                ExpireYear = ıyzicoModel.ExpireYear,
+                Cvc = ıyzicoModel.Cvc,
+                RegisterCard = ıyzicoModel.RegisterCard,
             };
             request.PaymentCard = paymentCard;
 
             Buyer buyer = new()
             {
                 Id = "BY789",
-                Name = "John",
-                Surname = "Doe",
-                Email = "email@email.com",
-                IdentityNumber = "74300864791",
-                RegistrationAddress = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+                Name = ıyzicoModel.Name,
+                Surname = ıyzicoModel.Surname,
+                Email = ıyzicoModel.Email,
+                IdentityNumber = ıyzicoModel.IdentityNumber,
+                RegistrationAddress = ıyzicoModel.RegistrationAddress,
                 Ip = "85.34.78.112",
-                City = "Istanbul",
-                Country = "Turkey",
+                City = ıyzicoModel.City,
+                Country = ıyzicoModel.Country,
             };
             request.Buyer = buyer;
 
             Address shippingAddress = new()
             {
-                ContactName = "Jane Doe",
-                City = "Istanbul",
-                Country = "Turkey",
-                Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+                ContactName = ıyzicoModel.Name,
+                City = ıyzicoModel.City,
+                Country = ıyzicoModel.Country,
+                Description = ıyzicoModel.RegistrationAddress,
             };
             request.ShippingAddress = shippingAddress;
 
             Address billingAddress = new()
             {
-                ContactName = "Jane Doe",
-                City = "Istanbul",
-                Country = "Turkey",
-                Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+
+                ContactName = ıyzicoModel.Name,
+                City = ıyzicoModel.City,
+                Country = ıyzicoModel.Country,
+                Description = ıyzicoModel.RegistrationAddress,
             };
             request.BillingAddress = billingAddress;
 
@@ -95,7 +96,12 @@ namespace BL.Concrete
 
             Payment payment = Payment.Create(request, options);
 
-            return new SuccessResult(Messages.PaySuccess);
+            if (payment.Status == "success")
+            {
+
+                return new SuccessResult(Messages.PaySuccess);
+            }
+            return new ErrorResult(Messages.payError);
         }
     }
 }

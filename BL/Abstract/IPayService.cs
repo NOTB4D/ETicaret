@@ -1,4 +1,5 @@
 ﻿using Core.Utilities.Results;
+using EL.Concrete;
 using Iyzipay.Model;
 using Iyzipay.Request;
 using System;
@@ -11,6 +12,6 @@ namespace BL.Abstract
 {
    public interface IPayService
     {
-        IResult PayWithIyzico(/*CreatePaymentRequest createPaymentRequest, PaymentCard paymentCard, Buyer buyer, Address address, Address shippinadress, List<BasketItem> basketItems*/);
+        IResult PayWithIyzico(IyzicoModel ıyzicoModel);
     }
 }

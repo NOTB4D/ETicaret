@@ -20,16 +20,45 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet("getrole")]
-        public IActionResult GellClaims([FromQuery] User user)
+        //[HttpGet("getrole")]
+        //public IActionResult GellClaims([FromQuery] User user)
+        //{
+        //    var result = _userService.GetClaims(user);
+        //    if(result.Success)
+        //    {
+        //        return Ok(result);
+        //    }
+        //    return BadRequest(result);
+        //}
+
+        [HttpGet("GetByMail")]
+        public IActionResult GetByMail(string mail)
         {
-            var result = _userService.GetClaims(user);
-            if(result.Success)
+            var result = _userService.GetUserByMail(mail);
+            if (result.Success)
+            {
+                return Ok(new
+                {
+                    result.Data.Id,
+                    result.Data.FirstName,
+                    result.Data.LastName,
+                    result.Data.Email,
+                    result.Data.Status
+                    
+                });
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("claims")]
+        public IActionResult GetClaims(int id)
+        {
+            var result = _userService.GetClaims(new User { Id = id });
+            if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-
     }
 }

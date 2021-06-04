@@ -1,4 +1,6 @@
 ﻿using BL.Abstract;
+using EL.Concrete;
+using Iyzipay.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,10 +21,10 @@ namespace WebAPI.Controllers
         }
 
 
-        [HttpGet("Pay")]
-        public IActionResult Pay()
+        [HttpPost("Pay")]
+        public IActionResult Pay(IyzicoModel  ıyzicoModel)
         {
-            var result = _payService.PayWithIyzico();
+            var result = _payService.PayWithIyzico(ıyzicoModel);
             if (result.Success)
             {
                 return Ok(result);

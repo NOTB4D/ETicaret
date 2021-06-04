@@ -13,6 +13,8 @@ namespace BL.Abstract
         IDataResult<List<OperationClaim>> GetClaims(User user);
         void Add(User user);
         User GetByMail(string email);
+
+        IDataResult<User> GetUserByMail(string email);
         
     }
 }

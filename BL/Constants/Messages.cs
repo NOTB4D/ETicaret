@@ -49,5 +49,6 @@ namespace BL.Constants
         public static string PaySuccess = "Ödemeniz Başarı ile Tamamlandı";
 
         public static string CityAdd = "Şehir Başarıyla Eklendi";
+        public static string payError = "Ödemeniz hatalı";
     }
 }
