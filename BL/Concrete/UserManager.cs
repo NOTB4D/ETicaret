@@ -38,5 +38,10 @@ namespace BL.Concrete
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.Email.Equals(email)));
         }
+
+        public IDataResult<OperationClaim> GetClaim(User user)
+        {
+            return new SuccessDataResult<OperationClaim>(_userDal.GetClaim(user));
+        }
     }
 }

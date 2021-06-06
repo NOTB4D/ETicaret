@@ -51,9 +51,20 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("claims")]
-        public IActionResult GetClaims(int id)
+        public IActionResult GetClaims(int Id)
         {
-            var result = _userService.GetClaims(new User { Id = id });
+            var result = _userService.GetClaims(new User { Id = Id });
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("claim")]
+        public IActionResult GetClaim(int Id)
+        {
+            var result = _userService.GetClaim(new User { Id = Id });
             if (result.Success)
             {
                 return Ok(result);

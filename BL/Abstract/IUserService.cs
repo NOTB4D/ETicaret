@@ -15,6 +15,8 @@ namespace BL.Abstract
         User GetByMail(string email);
 
         IDataResult<User> GetUserByMail(string email);
-        
+
+        IDataResult<OperationClaim> GetClaim(User user);
+
     }
 }

@@ -1,24 +1,18 @@
 ﻿using BL.Abstract;
 using BL.BusinessAspects.Autofac;
-using BL.CCS;
 using BL.Constants;
 using BL.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
-using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
-using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DAL.Abstract;
 using EL.Concrete;
 using EL.DTOs;
-using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BL.Concrete
 {
@@ -37,7 +31,7 @@ namespace BL.Concrete
             
         }
         [SecuredOperation("Admin")]
-        //[ValidationAspect(typeof(ProductValidator))]
+        [ValidationAspect(typeof(ProductValidator))]
         //[CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {

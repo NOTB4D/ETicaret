@@ -12,6 +12,6 @@ namespace DAL.Abstract
     {
         List<OperationClaim> GetClaims(User user);
 
-        
+        OperationClaim GetClaim(User user);
     }
 }
