@@ -16,8 +16,9 @@ namespace BL.Concrete
     public class PayWithIyzicoManager : IPayService
 
     {
-         public  IResult PayWithIyzico(IyzicoModel ıyzicoModel)
+         public  IResult PayWithIyzico(IyzicoModel iyzicomodel)
         {
+            
             Options options = new Options
             {
                 ApiKey = "sandbox-xGBbmai2cuUeE1CkM7Q1FwmOUdtdV3y9",
@@ -29,8 +30,8 @@ namespace BL.Concrete
             {
                 Locale = Locale.TR.ToString(),
                 ConversationId = "123456789",
-                Price = "0.3",
-                PaidPrice = "0.3",
+                Price = iyzicomodel.Price,
+                PaidPrice = iyzicomodel.Price,
                 Currency = Currency.TRY.ToString(),
                 Installment = 1,
                 BasketId = "B67832",
@@ -40,58 +41,72 @@ namespace BL.Concrete
 
             PaymentCard paymentCard = new PaymentCard
             {
-                CardHolderName = ıyzicoModel.CardHolderName,
-                CardNumber = ıyzicoModel.CardNumber,
-                ExpireMonth = ıyzicoModel.ExpireMonth,
-                ExpireYear = ıyzicoModel.ExpireYear,
-                Cvc = ıyzicoModel.Cvc,
-                RegisterCard = ıyzicoModel.RegisterCard,
+                CardHolderName = iyzicomodel.CardHolderName,
+                CardNumber = iyzicomodel.CardNumber,
+                ExpireMonth = iyzicomodel.ExpireMonth,
+                ExpireYear = iyzicomodel.ExpireYear,
+                Cvc = iyzicomodel.Cvc,
+                RegisterCard = iyzicomodel.RegisterCard,
             };
             request.PaymentCard = paymentCard;
 
             Buyer buyer = new()
             {
                 Id = "BY789",
-                Name = ıyzicoModel.Name,
-                Surname = ıyzicoModel.Surname,
-                Email = ıyzicoModel.Email,
-                IdentityNumber = ıyzicoModel.IdentityNumber,
-                RegistrationAddress = ıyzicoModel.RegistrationAddress,
+                Name = iyzicomodel.Name,
+                Surname = iyzicomodel.Surname,
+                Email = iyzicomodel.Email,
+                IdentityNumber = iyzicomodel.IdentityNumber,
+                RegistrationAddress = iyzicomodel.RegistrationAddress,
                 Ip = "85.34.78.112",
-                City = ıyzicoModel.City,
-                Country = ıyzicoModel.Country,
+                City = iyzicomodel.City,
+                Country = iyzicomodel.Country,
             };
             request.Buyer = buyer;
 
             Address shippingAddress = new()
             {
-                ContactName = ıyzicoModel.Name,
-                City = ıyzicoModel.City,
-                Country = ıyzicoModel.Country,
-                Description = ıyzicoModel.RegistrationAddress,
+                ContactName = iyzicomodel.Name,
+                City = iyzicomodel.City,
+                Country = iyzicomodel.Country,
+                Description = iyzicomodel.RegistrationAddress,
             };
             request.ShippingAddress = shippingAddress;
 
             Address billingAddress = new()
             {
 
-                ContactName = ıyzicoModel.Name,
-                City = ıyzicoModel.City,
-                Country = ıyzicoModel.Country,
-                Description = ıyzicoModel.RegistrationAddress,
+                ContactName = iyzicomodel.Name,
+                City = iyzicomodel.City,
+                Country = iyzicomodel.Country,
+                Description = iyzicomodel.RegistrationAddress,
             };
             request.BillingAddress = billingAddress;
 
-            List<BasketItem> basketItems = new();
-            BasketItem firstBasketItem = new()
+            List<BasketItem> basketItems = new List<BasketItem>();
+
+            foreach (var item in iyzicomodel.CartItems)
             {
-                Id = "BI101",
-                Name = "Binocular",
-                Category1 = "Collectibles",
-                ItemType = BasketItemType.PHYSICAL.ToString(),
-                Price = "0.3"
-            };
-            basketItems.Add(firstBasketItem);
+                BasketItem basketItem = new BasketItem
+                {
+                    Id = item.Product.ProductID.ToString(),
+                    Category1 = item.Product.SubCategoryId.ToString(),
+                    Name = item.Product.ProductName,
+                    ItemType = BasketItemType.PHYSICAL.ToString(),
+                    Price = (item.Product.UnitPrice * item.Quantity).ToString()
+                };
+                basketItems.Add(basketItem);
+            }
+
+            //BasketItem firstBasketItem = new()
+            //{
+            //    Id = "BI101",
+            //    Name = "Binocular",
+            //    Category1 = "Collectibles",
+            //    ItemType = BasketItemType.PHYSICAL.ToString(),
+            //    Price = "0.3"
+            //};
+            //basketItems.Add(firstBasketItem);
             request.BasketItems = basketItems;
 
             Payment payment = Payment.Create(request, options);
