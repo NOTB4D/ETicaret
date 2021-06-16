@@ -1,6 +1,7 @@
 ﻿using BL.Abstract;
 using BL.Constants;
 using Core.Utilities.Results;
+using DAL.Concrate.EntityFrameWork;
 using EL.Concrete;
 using Iyzipay;
 using Iyzipay.Model;
@@ -14,10 +15,53 @@ using System.Threading.Tasks;
 namespace BL.Concrete
 {
     public class PayWithIyzicoManager : IPayService
-
     {
+        IBasketService _basketService;
+        IOrderService _orderService;
+        IUserService _userService;
+        IProductService _productService;
+        
+
+        public PayWithIyzicoManager( IBasketService basketService, IOrderService orderService,IUserService userService,IProductService productService)
+        {
+            _basketService = basketService;
+            _orderService = orderService;
+            _userService = userService;
+            _productService = productService;
+        }
+
+
          public  IResult PayWithIyzico(IyzicoModel iyzicomodel)
         {
+            var user = _userService.GetByMail(iyzicomodel.Email);
+           
+            var Order = new Order
+            {
+                Baskets = iyzicomodel.cartItems.Select(x=> new Basket { 
+                    ProductID = x.Product.ProductID,
+                    Price = x.Product.UnitPrice,
+                    Quantity = x.Quantity
+                }).ToList(),
+                UserId = user.Id,
+                OrderNumber = 11,
+                Massage = "Siparişiniz Alındı",
+                OrderDate = DateTime.Now,
+                ShipCity = iyzicomodel.City,
+                Status = 0
+            };
+            _orderService.Add(Order);
+            var Basket = iyzicomodel.cartItems.Select(x => new Basket
+            {
+                OrderId = Order.OrderId,
+                ProductID = x.Product.ProductID,
+                Price = x.Product.UnitPrice,
+                Quantity = x.Quantity
+            }).ToList();
+
+            foreach(var basket in Basket)
+            {
+                _basketService.Add(basket);
+            }
             
             Options options = new Options
             {
@@ -29,12 +73,12 @@ namespace BL.Concrete
             CreatePaymentRequest request = new CreatePaymentRequest
             {
                 Locale = Locale.TR.ToString(),
-                ConversationId = "123456789",
+                ConversationId = Order.OrderId.ToString(),
                 Price = iyzicomodel.Price,
                 PaidPrice = iyzicomodel.Price,
                 Currency = Currency.TRY.ToString(),
                 Installment = 1,
-                BasketId = "B67832",
+                BasketId = Order.OrderId.ToString(),
                 PaymentChannel = PaymentChannel.WEB.ToString(),
                 PaymentGroup = PaymentGroup.PRODUCT.ToString()
             };
@@ -52,7 +96,7 @@ namespace BL.Concrete
 
             Buyer buyer = new()
             {
-                Id = "BY789",
+                Id = user.Id.ToString(),
                 Name = iyzicomodel.Name,
                 Surname = iyzicomodel.Surname,
                 Email = iyzicomodel.Email,
@@ -85,7 +129,7 @@ namespace BL.Concrete
 
             List<BasketItem> basketItems = new List<BasketItem>();
 
-            foreach (var item in iyzicomodel.CartItems)
+            foreach (var item in iyzicomodel.cartItems)
             {
                 BasketItem basketItem = new BasketItem
                 {
@@ -96,24 +140,22 @@ namespace BL.Concrete
                     Price = (item.Product.UnitPrice * item.Quantity).ToString()
                 };
                 basketItems.Add(basketItem);
+
             }
 
-            //BasketItem firstBasketItem = new()
-            //{
-            //    Id = "BI101",
-            //    Name = "Binocular",
-            //    Category1 = "Collectibles",
-            //    ItemType = BasketItemType.PHYSICAL.ToString(),
-            //    Price = "0.3"
-            //};
-            //basketItems.Add(firstBasketItem);
             request.BasketItems = basketItems;
 
             Payment payment = Payment.Create(request, options);
 
             if (payment.Status == "success")
             {
-
+                foreach (var item in Order.Baskets)
+                {
+                    item.OrderId = Order.OrderId;
+                }
+                Order.Status = 1;
+                Order.Massage = "Sipariş Alındı";
+                _orderService.Update(Order);
                 return new SuccessResult(Messages.PaySuccess);
             }
             return new ErrorResult(Messages.payError);

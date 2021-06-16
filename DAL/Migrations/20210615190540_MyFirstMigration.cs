@@ -13,7 +13,7 @@ namespace DAL.Migrations
                 {
                     AdressId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CostumerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CostumerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Adres = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AdressName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -49,6 +49,19 @@ namespace DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cities",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    city_name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cities", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,21 +191,21 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Basket",
+                name: "Baskets",
                 columns: table => new
                 {
                     BasketId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    ProductQuantity = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false),
+                    ProductID = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Basket", x => x.BasketId);
+                    table.PrimaryKey("PK_Baskets", x => x.BasketId);
                     table.ForeignKey(
-                        name: "FK_Basket_Orders_OrderId",
+                        name: "FK_Baskets_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "OrderId",
@@ -200,8 +213,8 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Basket_OrderId",
-                table: "Basket",
+                name: "IX_Baskets_OrderId",
+                table: "Baskets",
                 column: "OrderId");
         }
 
@@ -211,13 +224,16 @@ namespace DAL.Migrations
                 name: "Adresses");
 
             migrationBuilder.DropTable(
-                name: "Basket");
+                name: "Baskets");
 
             migrationBuilder.DropTable(
                 name: "Brands");
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Customers");

@@ -24,6 +24,7 @@ namespace BL.Abstract
         IResult Delete(int productId);
         IDataResult<List<ProductImageDetailDto>> GetProductImageBySubcategoryId(int Id);
         
-        
+
+
     }
 }

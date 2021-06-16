@@ -17,6 +17,6 @@ namespace EL.Concrete
         public DateTime OrderDate { get; set; }
         public string ShipCity { get; set; }
 
-        public ICollection<CartItem> CartItems { get; set; }
+        public ICollection<Basket> Baskets { get; set; }
     }
 }

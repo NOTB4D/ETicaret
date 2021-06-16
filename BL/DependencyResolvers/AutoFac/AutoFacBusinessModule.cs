@@ -21,6 +21,12 @@ namespace BL.DependencyResolvers.AutoFac
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<BasketManager>().As<IBasketService>().SingleInstance();
+            builder.RegisterType<EfBasketDal>().As<IBasketDal>().SingleInstance();
+
+            builder.RegisterType<OrderManager>().As<IOrderService>().SingleInstance();
+            builder.RegisterType<EfOrderDal>().As<IOrderDal>().SingleInstance();
+
             builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance();
             builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();
 

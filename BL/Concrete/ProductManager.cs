@@ -20,14 +20,14 @@ namespace BL.Concrete
     {
         IProductDal _productDal;
         ICategoryService _categoryservice;
-        //IProductImageService _productImageService;
+        
 
         
-        public ProductManager(IProductDal productDal,ICategoryService categoryService /*IProductImageService productImageService*/)
+        public ProductManager(IProductDal productDal,ICategoryService categoryService )
         {
             _productDal = productDal;
             _categoryservice = categoryService;
-            //_productImageService = productImageService;
+            
             
         }
         [SecuredOperation("Admin")]

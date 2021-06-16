@@ -122,20 +122,20 @@ namespace DAL.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ProductID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductQuantity")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("BasketId");
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Basket");
+                    b.ToTable("Baskets");
                 });
 
             modelBuilder.Entity("EL.Concrete.Brand", b =>
@@ -309,14 +309,16 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("EL.Concrete.Basket", b =>
                 {
-                    b.HasOne("EL.Concrete.Order", null)
-                        .WithMany("baskets")
+                    b.HasOne("EL.Concrete.Order", "Order")
+                        .WithMany("Baskets")
                         .HasForeignKey("OrderId");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("EL.Concrete.Order", b =>
                 {
-                    b.Navigation("baskets");
+                    b.Navigation("Baskets");
                 });
 #pragma warning restore 612, 618
         }

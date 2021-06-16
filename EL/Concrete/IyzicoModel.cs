@@ -24,7 +24,7 @@ namespace EL.Concrete
         public string Country { get; set; }
         public string ContactName { get; set; }
         public string Price { get; set; }
-        public List<CartItem> CartItems { get; set; }
+        public List<CartItem> cartItems { get; set; }
 
 
     }
