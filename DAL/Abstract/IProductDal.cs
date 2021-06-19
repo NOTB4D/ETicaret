@@ -13,6 +13,7 @@ namespace DAL.Abstract
    public interface IProductDal:IEntityRepository<Product>
     {
         List<ProductDetailDto> GetProductDetails(Expression<Func<ProductDetailDto, bool>> filter = null);
-       List<ProductImageDetailDto> GetProductImageDetail(Expression<Func<ProductImageDetailDto, bool>> filter = null);
+        List<ProductImageDetailDto> GetProductImageDetail(Expression<Func<ProductImageDetailDto, bool>> filter = null);
+        List<ProductFilterDto> ProductSearch(Expression<Func<ProductFilterDto, bool>> filter = null);
     }
 }

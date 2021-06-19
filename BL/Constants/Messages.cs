@@ -9,6 +9,7 @@ namespace BL.Constants
 {
    public static class Messages
     {
+        public static string carouselImageUpdated = "Carousel Resimi Güncellendi";
         public static string ProductAdded = "Ürün eklendi";
         public static string ProductNameInvalid = "Ürün İsmi Gecersiz";
         public static string ProductListed = "Ürünler Listelendi";
@@ -50,5 +51,9 @@ namespace BL.Constants
 
         public static string CityAdd = "Şehir Başarıyla Eklendi";
         public static string payError = "Ödemeniz hatalı";
+        public static string CarouselImageCountExceeded = "Resim Limiti Aşıldığı için Resim Eklenemiyor";
+        public static string CarouselImageAdded = "Carousel Resimi Eklendi";
+        public static string CarouselImageDeleted = "Carousel Resimi silindi";
+        public static string CarouselHaveNoImage = "Carousel Resim bulunmamaktadır";
     }
 }

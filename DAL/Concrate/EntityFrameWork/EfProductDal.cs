@@ -72,6 +72,25 @@ namespace DAL.Concrate.EntityFrameWork
                          };
             return result.ToList();
         }
+
+        public List<ProductFilterDto> ProductSearch(Expression<Func<ProductFilterDto, bool>> filter = null)
+        {
+            using EcommerceContext context = new();
+            var result = from Product in context.Products
+                         join Brand in context.Brands on Product.BrandId equals Brand.BrandId
+                         select new ProductFilterDto()
+                         {
+                             BrandName = Brand.BrandName,
+                             ProductId = Product.ProductID,
+                             ProductImage = context.ProductImages.FirstOrDefault(p => p.ProductId == Product.ProductID).ImagePath,
+                             ProductName = Product.ProductName,
+                             SubCategoryId = Product.SubCategoryId,
+                             UnitPrice = Product.UnitPrice,
+                             UnitsInStock = Product.UnitsInStock
+                         };
+            return filter == null ? result.ToList() : result.Where(filter).ToList();
+
+        }
     }
 
    

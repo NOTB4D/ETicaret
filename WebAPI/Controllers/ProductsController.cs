@@ -87,6 +87,19 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+
+        [HttpGet("GetProductBySearch")]
+        public IActionResult GetProductBySearch (string search)
+        {
+            var result = _productService.GetProductBySearch(search);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }
 

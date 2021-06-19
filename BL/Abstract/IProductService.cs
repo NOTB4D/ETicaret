@@ -23,7 +23,8 @@ namespace BL.Abstract
         IResult AddTransactionalTest(Product product);
         IResult Delete(int productId);
         IDataResult<List<ProductImageDetailDto>> GetProductImageBySubcategoryId(int Id);
-        
+
+        IDataResult<List<ProductFilterDto>> GetProductBySearch(string search);
 
 
     }

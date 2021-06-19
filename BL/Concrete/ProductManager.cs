@@ -151,5 +151,10 @@ namespace BL.Concrete
         {
             return new SuccessDataResult<List<ProductImageDetailDto>>(_productDal.GetProductImageDetail(p => p.SubCategoryId == Id));
         }
+
+        public IDataResult<List<ProductFilterDto>> GetProductBySearch(string search)
+        {
+            return new SuccessDataResult <List<ProductFilterDto>>(_productDal.ProductSearch(p => p.ProductName.Contains(search) || p.BrandName.Contains(search)));
+        }
     }
 }

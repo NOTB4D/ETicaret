@@ -21,6 +21,9 @@ namespace BL.DependencyResolvers.AutoFac
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<CarouselImageManager>().As<ICarouselImageService>().SingleInstance();
+            builder.RegisterType<EFCarouselDal>().As<ICarouselImageDal>().SingleInstance();
+
             builder.RegisterType<BasketManager>().As<IBasketService>().SingleInstance();
             builder.RegisterType<EfBasketDal>().As<IBasketDal>().SingleInstance();
 
