@@ -10,10 +10,10 @@ namespace BL.Abstract
 {
     public interface IAdressService
     {
-        IDataResult<List<Adress>> GetByCustomerId(string customerId);
+        IDataResult<List<Adress>> GetByuserId(int userId);
         IResult Add(Adress adress);
         IResult Update(Adress adress);
         IResult Delete(int adressId);
-        IDataResult<Adress> GetById(int adressId);
+        IDataResult<Adress> GetById(int userId);
     }
 }

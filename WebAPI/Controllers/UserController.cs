@@ -1,6 +1,7 @@
 ﻿using BL.Abstract;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
+using EL.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -65,6 +66,17 @@ namespace WebAPI.Controllers
         public IActionResult GetClaim(int Id)
         {
             var result = _userService.GetClaim(new User { Id = Id });
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("updateprofile")]
+        public IActionResult ProfileUpdate(UserForUpdateDto userForUpdateDto)
+        {
+            var result = _userService.EditProfil(userForUpdateDto.User);
             if (result.Success)
             {
                 return Ok(result);

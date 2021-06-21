@@ -14,7 +14,7 @@ namespace BL.ValidationRules.FluentValidation
         {
             RuleFor(x => x.Adres).NotNull().WithMessage("Id boş olamaz.");
             RuleFor(x => x.AdressName).NotNull().WithMessage("Adres adı boş olamaz.");
-            RuleFor(x => x.city).NotNull().WithMessage("Şehir boş olamaz.");
+            RuleFor(x => x.City).NotNull().WithMessage("Şehir boş olamaz.");
             RuleFor(x => x.Country).NotNull().WithMessage("Ülke boş olamaz.");
             RuleFor(x => x.ZipCode).NotNull().WithMessage("Posta Kodu boş olamaz.");
         }

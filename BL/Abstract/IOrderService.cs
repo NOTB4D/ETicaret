@@ -1,5 +1,6 @@
 ﻿using Core.Utilities.Results;
 using EL.Concrete;
+using EL.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace BL.Abstract
     {
         IDataResult<Order> Add(Order order);
         IResult Update(Order order);
+        IDataResult<List<OrderDetailDto>> GetOrderDetails(int UserId);
     }
 }

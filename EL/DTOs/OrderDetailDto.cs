@@ -5,18 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EL.Concrete
+namespace EL.DTOs
 {
-   public class Order :IEntity
+    public class OrderDetailDto: IDto
     {
-        public int OrderId { get; set; }
         public int OrderNumber { get; set; }
         public int Status { get; set; }
         public string Massage { get; set; }
         public int UserId { get; set; }
         public DateTime OrderDate { get; set; }
-        public string ShipCity { get; set; } // burası adresıd olarak değişicek
-
-        public ICollection<Basket> Baskets { get; set; }
+        public int Quantity { get; set; }
+        public decimal Price { get; set; }
+        public string ProductName { get; set; }
     }
 }

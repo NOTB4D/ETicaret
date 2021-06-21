@@ -55,5 +55,9 @@ namespace BL.Constants
         public static string CarouselImageAdded = "Carousel Resimi Eklendi";
         public static string CarouselImageDeleted = "Carousel Resimi silindi";
         public static string CarouselHaveNoImage = "Carousel Resim bulunmamaktadır";
+
+        public static string CustomerIsExists = "Müşeti bilgileri Zaten Var";
+
+        public static string UserUpdated = "Profil Bilgileriniz Güncellendi";
     }
 }

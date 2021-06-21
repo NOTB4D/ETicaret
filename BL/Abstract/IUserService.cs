@@ -18,5 +18,9 @@ namespace BL.Abstract
 
         IDataResult<OperationClaim> GetClaim(User user);
 
+        IResult EditProfil(User user);
+
+
+
     }
 }

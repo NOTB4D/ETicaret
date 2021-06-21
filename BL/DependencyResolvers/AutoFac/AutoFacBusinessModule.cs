@@ -21,6 +21,17 @@ namespace BL.DependencyResolvers.AutoFac
     {
         protected override void Load(ContainerBuilder builder)
         {
+
+            builder.RegisterType<OrderManager>().As<IOrderService>().SingleInstance();
+            builder.RegisterType<EfOrderDal>().As<IOrderDal>().SingleInstance();
+
+
+            builder.RegisterType<CustomerManager>().As<ICustomerService>().SingleInstance();
+            builder.RegisterType<EfCustomerDal>().As<ICustomerDal>().SingleInstance();
+
+            builder.RegisterType<AdressManager>().As<IAdressService>().SingleInstance();
+            builder.RegisterType<EfAdressDal>().As<IAdressDal>().SingleInstance();
+
             builder.RegisterType<CarouselImageManager>().As<ICarouselImageService>().SingleInstance();
             builder.RegisterType<EFCarouselDal>().As<ICarouselImageDal>().SingleInstance();
 

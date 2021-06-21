@@ -158,7 +158,18 @@ namespace BL.Concrete
                 _orderService.Update(Order);
                 return new SuccessResult(Messages.PaySuccess);
             }
-            return new ErrorResult(Messages.payError);
+            else
+            {
+                foreach (var item in Order.Baskets)
+                {
+                    item.OrderId = Order.OrderId;
+                }
+                Order.Status = 0;
+                Order.Massage = payment.ErrorMessage;
+                _orderService.Update(Order);
+                return new ErrorResult(Messages.payError);
+            }
+            
         }
     }
 }

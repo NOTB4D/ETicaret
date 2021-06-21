@@ -18,5 +18,9 @@ namespace Core.DataAccsess
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);
+        Task AddAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
+        Task MultiAddAsync(T[] entities);
     }
 }

@@ -15,14 +15,14 @@ namespace BL.Concrete
     public class AdressManager : IAdressService
     {
         IAdressDal _adressDal;
-        IProductService __productService;
-        public AdressManager(IAdressDal adressDal, IProductService productService)
+        
+        public AdressManager(IAdressDal adressDal)
         {
             _adressDal = adressDal;
-            __productService = productService;
+            
         }
 
-        [SecuredOperation("Admin,User")]
+        
         public IResult Add(Adress adress)
         {
             _adressDal.Add(adress);
@@ -35,16 +35,15 @@ namespace BL.Concrete
             return new SuccessResult(Messages.AddressDeleted);
         }
 
-        public IDataResult<List<Adress>> GetByCustomerId(string customerId)
+        public IDataResult<List<Adress>> GetByuserId(int userId)
         {
-            _adressDal.Get(x => x.CostumerId.Equals(customerId));
-            return new SuccessDataResult<List<Adress>>();
+            return new SuccessDataResult<List<Adress>>(_adressDal.GetAll(u => u.UserId == userId));
         }
 
-        public IDataResult<Adress> GetById(int adressId)
+        public IDataResult<Adress> GetById(int userId)
         {
             
-            return new SuccessDataResult<Adress>(_adressDal.Get(a => a.AdressId.Equals(adressId)));
+            return new SuccessDataResult<Adress>(_adressDal.Get(u => u.UserId.Equals(userId)));
         }
 
         public IResult Update(Adress adress)

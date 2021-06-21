@@ -2,6 +2,7 @@
 using BL.BusinessAspects.Autofac;
 using BL.Constants;
 using Core.Aspects.Autofac.Caching;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DAL.Abstract;
 using EL.Concrete;
@@ -23,6 +24,11 @@ namespace BL.Concrete
         
         public IResult Add(Customer customer)
         {
+            IResult result = BusinessRules.Run(CheckIfCustomerExists(customer.UserId));
+            if (result != null)
+            {
+                return result;
+            }
              _CustomerDal.Add(customer);
             return new SuccessResult(Messages.CustomerAdded);
         }
@@ -38,18 +44,28 @@ namespace BL.Concrete
         {
             return new SuccessDataResult<List<Customer>>(_CustomerDal.GetAll(), Messages.CustomersListed);
         }
-        [SecuredOperation("Admin")]
+        //[SecuredOperation("Admin")]
         public IDataResult<Customer> GetById(int Id)
         {
-            return new SuccessDataResult<Customer>(_CustomerDal.Get(c => c.CustomerId == Id.ToString()));
+            return new SuccessDataResult<Customer>(_CustomerDal.Get(c => c.UserId == Id));
         }
-        [SecuredOperation("Admin")]
+        //[SecuredOperation("Admin")]
         public IResult Update(Customer customer)
         {
             _CustomerDal.Update(customer);
             return new SuccessResult(Messages.CustomerUpdated);
         }
 
-       
+
+        private IResult CheckIfCustomerExists(int customerId)
+        {
+            var result = _CustomerDal.GetAll(c => c.UserId == customerId).Any();
+            if (result)
+            {
+                return new ErrorResult(Messages.CustomerIsExists);
+            }
+            return new SuccessResult();
+        }
+
     }
 }

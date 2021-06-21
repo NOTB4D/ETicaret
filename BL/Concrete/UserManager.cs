@@ -1,4 +1,5 @@
 ﻿using BL.Abstract;
+using BL.Constants;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DAL.Abstract;
@@ -43,5 +44,20 @@ namespace BL.Concrete
         {
             return new SuccessDataResult<OperationClaim>(_userDal.GetClaim(user));
         }
+
+        public IResult EditProfil(User user)
+        {
+            var updatedUser = new User
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Status = user.Status
+            };
+            _userDal.UpdateAsync(updatedUser);
+            return new SuccessResult(Messages.UserUpdated);
+        }
+
     }
 }

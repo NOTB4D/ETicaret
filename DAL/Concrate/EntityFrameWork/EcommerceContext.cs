@@ -13,7 +13,7 @@ namespace DAL.Concrate.EntityFrameWork
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-1V16HHM;Integrated Security=True;Database=Ecommerce;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False").EnableSensitiveDataLogging().EnableDetailedErrors();
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-1V16HHM;Integrated Security=True;Database=Ecommerce;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }

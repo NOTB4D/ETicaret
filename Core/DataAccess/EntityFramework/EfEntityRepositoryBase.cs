@@ -62,5 +62,48 @@ namespace Core.DataAccess.EntityFramework
                 context.SaveChanges();
             }
         }
+
+        public async Task AddAsync(TEntity entity)
+        {
+            using (TContext context = new TContext())
+            {
+                var addedEntity = context.Entry(entity);
+                addedEntity.State = EntityState.Added;
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task DeleteAsync(TEntity entity)
+        {
+            using (TContext context = new TContext())
+            {
+                var deletedEntity = context.Entry(entity);
+                deletedEntity.State = EntityState.Deleted;
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task MultiAddAsync(TEntity[] entities)
+        {
+            using (TContext context = new TContext())
+            {
+                foreach (var entity in entities)
+                {
+                    var multiAddedEntity = context.Entry(entity);
+                    multiAddedEntity.State = EntityState.Added;
+                    await context.SaveChangesAsync();
+                }
+
+            }
+        }
+        public async Task UpdateAsync(TEntity entity)
+        {
+            using (TContext context = new TContext())
+            {
+                var updatedEntity = context.Entry(entity);
+                updatedEntity.State = EntityState.Modified;
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }
